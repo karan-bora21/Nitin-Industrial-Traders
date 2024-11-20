@@ -1,0 +1,52 @@
+a {
+  text-decoration: none;
+  color: black;
+}
+
+body {
+  background-color: #f8f9fa;
+  font-family: "Montserrat", sans-serif;
+}
+
+.view-bill-table {
+  max-height: 75%;
+  max-width: 75%;
+}
+
+.search-bill-table {
+  max-height: 50%;
+  max-width: 100%;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.header {
+  margin-top: 10%;
+}
+
+.home-button {
+  background-color: #FF1616;
+}
+
+.btn-custom {
+  margin: 0 10px;
+  width: 150px;
+}
+
+.searchBill {
+  width: 90%;
+}
+
+.logo-image {
+  height: 25%;
+  width: 20%;
+}
+
+.grn-text {
+  color: #FF1616;
+}
+
+
