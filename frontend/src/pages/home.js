@@ -1,24 +1,36 @@
-import Navbar from "../components/navbar"
+import Navbar from "../components/navbar";
 
 const Home = () => {
   return (
     <div>
       <Navbar />
-      <div className="container text-center header">
-        <div>
-          <h1 className="mb-4"><strong>GRN Portal</strong></h1>
-          <div className="mt-4">
-            <button type="button" className="btn btn-custom home-button"><a href="/createBill" className="text-white">Enter Data</a></button>
-            <button type="button" className="btn btn-custom home-button"><a href="/viewBill" className="text-white">View Data</a></button>
-            <button type="button" className="btn btn-custom home-button"><a href="/searchBill" className="text-white">Search Data</a></button>
-            <button type="button" className="btn btn-custom home-button"><a href="/addParty" className="text-white">Add Party</a></button>
+      <div className="container text-center header py-5">
+        <h1 className="mb-4 fw-bold grn-text">GRN Portal</h1>
+        <div className="row justify-content-center g-3 mt-4">
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3">
+            <a href="/createBill" className="btn btn-custom home-button w-100 text-white text-decoration-none">
+              Enter Data
+            </a>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3">
+            <a href="/viewBill" className="btn btn-custom home-button w-100 text-white text-decoration-none">
+              View Data
+            </a>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3">
+            <a href="/searchBill" className="btn btn-custom home-button w-100 text-white text-decoration-none">
+              Search Data
+            </a>
+          </div>
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3">
+            <a href="/addParty" className="btn btn-custom home-button w-100 text-white text-decoration-none">
+              Add Party
+            </a>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
-
-
+export default Home;

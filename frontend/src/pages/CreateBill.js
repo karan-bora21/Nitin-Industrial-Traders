@@ -101,13 +101,15 @@ const CreateBill = () => {
                         <input
                             type="text"
                             value={partyName}
-                            name="PartyNameInput"
+                            name="PartyName"
                             className="form-control"
                             onChange={(e) => setPartyName(e.target.value)}
                             data-bs-toggle="dropdown" 
                         />
                         <div className="dropdown">
-                            <ul className="dropdown-menu w-100">
+                            <ul className="dropdown-menu w-100 overflow-auto" 
+                                style={{ maxHeight: '200px', maxWidth: '100%', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }}
+                            >
                                 {companyNames && companyNames.filter(item => {
                                     const searchTerm = partyName.toLowerCase();
                                     const companyName = item.CompanyName.toLowerCase();
@@ -115,24 +117,13 @@ const CreateBill = () => {
                                     return searchTerm && companyName.startsWith(searchTerm);
                                 }).map((item, index) => (
                                     <li key={index}>
-                                        <div className="dropdown-item" type="button">
+                                        <div className="dropdown-item" type="button" onClick={() => setPartyName(item.CompanyName)}>
                                             {item.CompanyName}
                                         </div>
                                     </li>
                                 ))}
                             </ul>
                         </div>
-                    </div>
-
-
-                    <div className="input-group-sm mt-2">
-                        <label className="form-label">Party Name</label>
-                        <select className="form-select" name="PartyName">
-                            <option selected>Open Party</option>
-                            {companyNames && companyNames.map((item) => (
-                                <option>{item.CompanyName}</option>
-                            ))}
-                        </select>
                     </div>
 
                     <div className="input-group-sm mt-2">
