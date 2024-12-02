@@ -12,7 +12,6 @@ const CreateBill = ({onLogout}) => {
             const json = await response.json();
 
             if(response.ok) {
-                console.log("a");
                 setCompanyNames(json);
             }
             
@@ -124,6 +123,17 @@ const CreateBill = ({onLogout}) => {
                             </ul>
                         </div>
                     </div>
+
+
+                    {/* <div className="input-group-sm mt-2">
+                        <label className="form-label">Party Name</label>
+                        <select className="form-select" name="PartyName">
+                            <option selected>Open Party</option>
+                            {companyNames && companyNames.map((item) => (
+                                <option>{item.CompanyName}</option>
+                            ))}
+                        </select>
+                    </div> */}
 
                     <div className="input-group-sm mt-2">
                         <label className="class-label">Invoice Date</label>
