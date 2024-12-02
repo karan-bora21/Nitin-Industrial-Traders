@@ -1,7 +1,63 @@
 const fs = require('fs');
-const { Inventory, CompanyName, MaterialName } = require('../models/InventoryModel');
+const { User, Inventory, CompanyName, MaterialName } = require('../models/InventoryModel');
 const { search } = require('../routes/inventoryRoutes');
 const CsvParser = require('json2csv').Parser;
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+//register
+const registerUser = async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        // Check if the user already exists
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        // Hash the password before saving
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        // Create new user
+        const NewUser = await User.create({
+            username: username,
+            password: hashedPassword
+        });
+        console.log(NewUser)
+
+
+        res.status(201).json({ message: 'User registered successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+};
+
+//login
+const loginUser = async (req, res) => {
+    const { username, password } = req.body;
+  
+    try {
+      const user = await User.findOne({ username });
+
+      if (!user) {
+        return res.status(400).json({ message: 'User not found. Please register first.' });
+      }
+  
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        return res.status(400).json({ message: 'Invalid password' });
+      }
+  
+      // Create a JWT token
+      const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      console.log(token);
+  
+      res.status(200).json({ message: 'Login successful', token: token });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
 
 //get all bill
 const getBills = async(req, res) => {
@@ -12,6 +68,7 @@ const getBills = async(req, res) => {
 
 //enter new bill
 const createBill = async(req, res) => {
+    console.log("a")
     const {
         PartyName, InvoiceDate, InvoiceNumber, Transporter, LRNumber, Material, Quantity, NumberOfBox
     } = req.body;
@@ -102,7 +159,7 @@ const getCompanyNames = async(req, res) => {
     res.status(200).json(companyNames);
 }
 
-//add company name
+// add company name
 // const addCompanyName = async(req, res) => {
 //     const jsonData = JSON.parse(fs.readFileSync('csvjson.json', 'utf-8'));
 
@@ -138,4 +195,31 @@ const getMaterialNames = async(req, res) => {
 //         });
 // }
 
-module.exports = { createBill, getBills, deleteBill, updateBill, searchBills, getCompanyNames, addPartyName, getMaterialNames }
+// add material to database
+const addMaterialName = async(req, res) => {
+    try {
+        const {material} = req.body;
+
+        console.log(req.body)
+
+        const searchForMaterial = await MaterialName.find({MaterialName: material});
+
+        console.log(searchForMaterial);
+
+        if(searchForMaterial.length === 0) {
+            const NewMaterial = await MaterialName.create({
+                MaterialName: material
+            });
+
+            res.status(200).json(NewMaterial);
+        }
+        else {
+            res.status(409).json({ message: "Material already exists" });
+        }
+        
+    } catch(error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+module.exports = { createBill, getBills, deleteBill, updateBill, searchBills, getCompanyNames, addPartyName, getMaterialNames, addMaterialName, registerUser, loginUser }

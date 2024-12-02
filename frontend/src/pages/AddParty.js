@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import Navbar from '../components/navbar';
 
-const AddParty = () => {
+const AddParty = ({onLogout}) => {
     const [party, setParty] = useState("");
-    const [message, setMessage] = useState("");
+    const [message1, setMessage1] = useState("");
+    const [material, setMaterial] = useState("");
+    const [message2, setMessage2] = useState("");
 
-    const handleSubmit = async (e) => {
+
+    const handleSubmit1 = async (e) => {
         e.preventDefault(); // Prevent page refresh on form submit
 
         const PartyName = { party };
@@ -21,23 +24,48 @@ const AddParty = () => {
         const json = await response.json();
 
         if (response.ok) {
-            setMessage("Party added successfully!");
+            setMessage1("Party added successfully!");
             setParty("")
         } else if (response.status === 409) {
-            setMessage(json.message); // "Party already exists"
+            setMessage1(json.message1); // "Party already exists"
         } else {
-            setMessage("An error occurred. Please try again.");
+            setMessage1("An error occurred. Please try again.");
+        }
+    }
+
+    const handleSubmit2 = async(e) => {
+        e.preventDefault(); // Prevent page refresh on form submit
+
+        const MaterialName = { material };
+
+        const response = await fetch("/api/inventory/addNewMaterial", {
+            method: 'POST',
+            body: JSON.stringify(MaterialName),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const json = await response.json();
+
+        if (response.ok) {
+            setMessage2("Material added successfully!");
+            setParty("")
+        } else if (response.status === 409) {
+            setMessage2(json.message2); // "Material already exists"
+        } else {
+            setMessage2("An error occurred. Please try again.");
         }
     }
 
     return (
         <div>
-            <Navbar />
+            <Navbar onLogout={onLogout}/>
             <div className="w-75 h-25 m-auto border rounded p-4 mt-4 mb-4">
                 <div className="border-bottom">
                     <h4>Add Party and Material</h4>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit1}>
                     <div className="mt-2">
                         <label htmlFor="exampleInputEmail1" className="form-label">Add Party</label>
                         <input
@@ -50,30 +78,30 @@ const AddParty = () => {
                     </div>
                     <button type="submit" className="btn btn-primary mt-3">Submit</button>
                 </form>
-                {message && (
+                {message1 && (
                     <div className="mt-3 alert alert-info" role="alert">
-                        {message}
+                        {message1}
                     </div>
                 )}
 
-                {/* <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit2}>
                     <div className="mt-2">
                         <label htmlFor="exampleInputEmail1" className="form-label">Add Material</label>
                         <input
-                            value = {party}
+                            value = {material}
                             type="text"
                             className="form-control"
                             id="exampleInputEmail1"
-                            onChange={(e) => setParty(e.target.value)}
+                            onChange={(e) => setMaterial(e.target.value)}
                         />
                     </div>
                     <button type="submit" className="btn btn-primary mt-3">Submit</button>
                 </form>
-                {message && (
+                {message2 && (
                     <div className="mt-3 alert alert-info" role="alert">
-                        {message}
+                        {message2}
                     </div>
-                )} */}
+                )}
             </div>
         </div>
     );

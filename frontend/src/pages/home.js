@@ -1,9 +1,9 @@
 import Navbar from "../components/navbar";
 
-const Home = () => {
+const Home = ({onLogout}) => {
   return (
     <div>
-      <Navbar />
+      <Navbar onLogout={onLogout} />
       <div className="container text-center header py-5">
         <h1 className="mb-4 fw-bold grn-text">GRN Portal</h1>
         <div className="row justify-content-center g-3 mt-4">

@@ -4,7 +4,7 @@ import { DownloadTableExcel } from 'react-export-table-to-excel'
 import BillDetails from "../components/BillDetails"
 import Navbar from "../components/navbar"
 
-const ViewBill = () => {
+const ViewBill = ({onLogout}) => {
     const [bills, setBills] = useState(null)
     const tableRef = useRef(null)
 
@@ -22,7 +22,7 @@ const ViewBill = () => {
 
     return (
         <div>
-          <Navbar />
+          <Navbar onLogout={onLogout}/>
           <div className="w-75 m-auto p-2 mt-4 table-responsive view-bill-table">
             <h4 className="mb-4 grn-text text-center"><strong>GRN Data</strong></h4>
             <table className="table table-sm table-hover table-light table-bordered border-dark" ref={tableRef}>

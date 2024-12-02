@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import item from "../item";
 import Navbar from "../components/navbar";
 
-const CreateBill = () => {
+const CreateBill = ({onLogout}) => {
     const [partyName, setPartyName] = useState("");
     const [companyNames, setCompanyNames] = useState(null);
 
@@ -86,11 +86,10 @@ const CreateBill = () => {
         })
     }
 
-    console.log(companyNames);
 
     return (
         <div>
-            <Navbar />
+            <Navbar onLogout={onLogout}/>
             <div className="w-75 h-25 m-auto border rounded p-4 mt-4 mb-4">
                 <div className="border-bottom">
                     <h4>Add New Bill</h4>

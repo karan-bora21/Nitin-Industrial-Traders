@@ -4,7 +4,7 @@ import BillDetails from '../components/BillDetails';
 import item from '../item';
 // import partyName from '../partyName';
 
-const SearchBill = () => {
+const SearchBill = ({onLogout}) => {
     const [GRNNumber, setGRNNumber] = useState(null);
     const [Error, setError] = useState('');
     const [bills, setBills] = useState(null);
@@ -53,7 +53,7 @@ const SearchBill = () => {
     
     return (
         <div>
-            <Navbar />
+            <Navbar onLogout={onLogout}/>
             <div className="searchBill h-25 m-auto rounded p-4 mt-2 mb-4">
                 <div>
                     <form onSubmit={handleSubmit}>

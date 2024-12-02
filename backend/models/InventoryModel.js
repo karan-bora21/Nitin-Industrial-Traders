@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
+// User Schema for Registration and Login (Only Username and Password)
+const userSchema = new Schema({
+    username: {
+      type: String,
+      required: true,
+      unique: true, // Ensure the username is unique
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+  }, { timestamps: true });
+
+
 const inventorySchema = new Schema({
     GRNNumber: {
         type: Number,
@@ -56,8 +70,10 @@ const materialNameSchema = new Schema({
 const Inventory = mongoose.model('Inventory', inventorySchema);
 const CompanyName = mongoose.model('CompanyName', companyNameSchema);
 const MaterialName = mongoose.model('MaterialName', materialNameSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = {
+    User,
     Inventory,
     CompanyName,
     MaterialName
