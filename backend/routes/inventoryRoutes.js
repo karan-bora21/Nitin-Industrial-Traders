@@ -1,6 +1,13 @@
 const express = require('express');
-const { createBill, getBills, deleteBill, updateBill, searchBills, getCompanyNames, addPartyName, getMaterialNames } = require("../controllers/inventoryControllers");
+const { createBill, getBills, deleteBill, updateBill, searchBills, getCompanyNames, addPartyName, getMaterialNames, addMaterialName, registerUser,  loginUser} = require("../controllers/inventoryControllers");
 const router = express.Router();
+
+
+//Register
+router.post('/register', registerUser);
+
+//Login
+router.post('/login', loginUser);
 
 //GET all bill
 router.get('/', getBills);
@@ -31,5 +38,8 @@ router.get('/getMaterialNames', getMaterialNames);
 
 //add pre-existing material
 // router.get('/addMaterial', addMaterialName);
+
+//Add a new material
+router.post('/addNewMaterial', addMaterialName);
 
 module.exports = router;
