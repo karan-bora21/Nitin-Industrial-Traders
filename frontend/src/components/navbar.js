@@ -40,10 +40,10 @@ const Navbar = ({ onLogout }) => {
             <li className="nav-item mx-3">
               <a
                 className="nav-link text-dark fw-semibold"
-                href="/"
+                href="/createBill"
                 style={{ transition: "color 0.3s" }}
               >
-                Home
+                Enter Data
               </a>
             </li>
             <li className="nav-item mx-3">
@@ -58,19 +58,28 @@ const Navbar = ({ onLogout }) => {
             <li className="nav-item mx-3">
               <a
                 className="nav-link text-dark fw-semibold"
-                href="/createBill"
+                href="/searchBill"
                 style={{ transition: "color 0.3s" }}
               >
-                Create Data
+                Search Data
               </a>
             </li>
             <li className="nav-item mx-3">
               <a
                 className="nav-link text-dark fw-semibold"
-                href="/searchBill"
+                href="/addParty"
                 style={{ transition: "color 0.3s" }}
               >
-                Search Data
+                Add Party & Item
+              </a>
+            </li>
+            <li className="nav-item mx-3">
+              <a
+                className="nav-link text-dark fw-semibold"
+                href="/editBill"
+                style={{ transition: "color 0.3s" }}
+              >
+                Edit Bill
               </a>
             </li>
           </ul>
