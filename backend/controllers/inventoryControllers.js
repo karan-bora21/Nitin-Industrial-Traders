@@ -63,17 +63,13 @@ const getBills = async (req, res) => {
     try {
         const { startDate, endDate } = req.query;
 
-        let query = {};
-        if (startDate && endDate) {
-            query.createdAt = {
-                $gte: new Date(startDate),
-                $lte: new Date(endDate),
-            };
-        }
-
-        const bills = await Inventory.find(query)
-            .sort({ createdAt: -1 })
-            .limit(startDate && endDate ? 0 : 10); // Return latest 10 only if no date range
+        const bills = await Inventory.find(
+            startDate && endDate
+                ? { InvoiceDate: { $gte: startDate, $lte: endDate } }
+                : {} // If no date range, fetch all documents
+            )
+            .sort({ InvoiceDate: -1 }) // Sort by 'createdAt' in descending order
+            .limit(startDate && endDate ? 0 : 10);
 
         res.status(200).json(bills);
     } catch (error) {
