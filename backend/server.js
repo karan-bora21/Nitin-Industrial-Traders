@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const inventoryRoutes = require("./routes/inventoryRoutes");
+const path = require('path');
 require('dotenv').config();
 
 //Express App
@@ -25,5 +26,23 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 }).catch((error) => {
     console.log(error)
 });
+
+// ---------------- Deployment ---------------------
+
+const __dirname1 = path.resolve(__dirname, '../');
+
+if(process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname1,"/frontend/build")));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
+    })
+} else {
+    app.get("/", (req, res) => {
+        res.send("API is running successfully");
+    })
+}
+
+//--------------------------------------------------
 
 
