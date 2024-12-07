@@ -1,5 +1,5 @@
 const express = require('express');
-const { createBill, getBills, deleteBill, updateBill, searchBills, getCompanyNames, addPartyName, getMaterialNames, addMaterialName, registerUser,  loginUser} = require("../controllers/inventoryControllers");
+const { createBill, getBills, deleteBill, updateBill, searchBills, getCompanyNames, addPartyName, getMaterialNames, addMaterialName, registerUser, loginUser, getBillByGRN } = require("../controllers/inventoryControllers");
 const router = express.Router();
 
 
@@ -12,6 +12,9 @@ router.post('/login', loginUser);
 //GET all bill
 router.get('/', getBills);
 
+//Search a bill by GRN Number
+router.get("/editBill/:GRNNumber", getBillByGRN);
+
 //Post a bill
 router.post('/', createBill);
 
@@ -22,7 +25,7 @@ router.post('/searchBill', searchBills);
 router.delete('/:id', deleteBill);
 
 //Update a bill
-router.patch('/:id', updateBill);
+router.patch('/editBill/:GRNNumber', updateBill);
 
 //Get all company names
 router.get('/getCompanyNames', getCompanyNames);
@@ -37,7 +40,7 @@ router.post('/addNewCompany', addPartyName);
 router.get('/getMaterialNames', getMaterialNames);
 
 //add pre-existing material
-// router.get('/addMaterial', addMaterialName);
+// router.get('/addMaterial', addMaterialNames);
 
 //Add a new material
 router.post('/addNewMaterial', addMaterialName);

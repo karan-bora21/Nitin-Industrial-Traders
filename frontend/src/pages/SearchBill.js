@@ -1,24 +1,27 @@
 import { useState, useEffect } from 'react';
 import Navbar from "../components/navbar";
 import BillDetails from '../components/BillDetails';
-import item from '../item';
-// import partyName from '../partyName';
 
 const SearchBill = ({onLogout}) => {
     const [GRNNumber, setGRNNumber] = useState(null);
+    const [companyNames, setCompanyNames] = useState(null);
+    const [partyName, setPartyName] = useState("");
+    const [itemNames, setItemNames] = useState(null);
+    const [materialName, setMaterialName] = useState("");
     const [Error, setError] = useState('');
     const [bills, setBills] = useState(null);
-    const [companyNames, setCompanyNames] = useState(null);
 
     useEffect(() => {
         const fetchCompanyNames = async() => {
-            const response = await fetch('/api/inventory/getCompanyNames');
-            const json = await response.json();
+            const response1 = await fetch('/api/inventory/getCompanyNames');
+            const response2 = await fetch('api/inventory/getMaterialNames');
 
-            console.log(json);
+            const json1 = await response1.json();
+            const json2 = await response2.json();
 
-            if(response.ok) {
-                setCompanyNames(json);
+            if(response1.ok && response2.ok) {
+                setCompanyNames(json1);
+                setItemNames(json2);
             }
             
         }
@@ -59,44 +62,75 @@ const SearchBill = ({onLogout}) => {
                     <form onSubmit={handleSubmit}>
                         <div className="row">
                             <div className="input-group-sm mt-2 col-lg-4 col-sm-12">
-                                <label className="form-label">GRN Number</label>
-                                <input 
-                                    type="number" 
-                                    className="form-control"
-                                    onChange={(event) => {setGRNNumber(event.target.value)}}
-                                />
+                              <label className="form-label">GRN Number</label>
+                              <input 
+                                type="number" 
+                                className="form-control"
+                                onChange={(event) => {setGRNNumber(event.target.value)}}
+                              />
                             </div>
 
                             <div className="input-group-sm mt-2 col-lg-4 col-sm-12">
-                                <label className="form-label">Party Name</label>
-                                <select className="form-select" name="PartyName">
-                                    <option selected>Open Party</option>
-                                    {companyNames && companyNames.map((item) => (
-                                        <option>{item.CompanyName}</option>
-                                    ))}
-                                </select>
+                              <label className="form-label">Party Name</label>
+                              <input
+                                type="text"
+                                value={partyName}
+                                name="PartyName"
+                                className="form-control"
+                                onChange={(e) => setPartyName(e.target.value)}
+                                data-bs-toggle="dropdown" 
+                              />
+                              <div className="dropdown">
+                                <ul className="dropdown-menu w-100 overflow-auto" 
+                                    style={{ maxHeight: '200px', maxWidth: '100%', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }}
+                                >
+                                  {companyNames && companyNames.filter(item => {
+                                    const searchTerm = partyName.toLowerCase();
+                                    const companyName = item.CompanyName.toLowerCase();
+
+                                    return searchTerm && companyName.startsWith(searchTerm);
+                                  }).map((item, index) => (
+                                    <li key={index}>
+                                      <div className="dropdown-item" type="button" onClick={() => setPartyName(item.CompanyName)}>
+                                        {item.CompanyName}
+                                      </div>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
                             </div>
-
-                            {/* <div className="input-group-sm mt-2 col-lg-4 col-sm-12">
-                                <label className="form-label">Party Name</label>
-                                <select className="form-select" name="PartyName">
-                                    <option selected>Open Party</option>
-                                    {partyName.partyNames.map((item) => (
-                                        <option>{item}</option>
-                                    ))}
-                                </select>
-                            </div> */}
-
+                            
                             <div className="input-group-sm mt-2 col-lg-4 col-sm-12">
-                                <label className="form-label">Material Name</label>
-                                <select className="form-select" name="MaterialName">
-                                    <option selected>Open Items</option>
-                                    {item.items.map((item) => (
-                                        <option>{item}</option>
-                                    ))}
-                                </select>
+                              <label className="form-label">Material Name</label>
+                              <input
+                                type="text"
+                                value={materialName}
+                                name="MaterialName"
+                                className="form-control"
+                                onChange={(e) => setMaterialName(e.target.value)}
+                                data-bs-toggle="dropdown" 
+                              />
+                              <div className="dropdown">
+                                <ul className="dropdown-menu w-100 overflow-auto" 
+                                    style={{ maxHeight: '200px', maxWidth: '100%', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }}
+                                >
+                                  {itemNames && itemNames.filter(item => {
+                                    const searchTerm = materialName.toLowerCase();
+                                    const itemName = item.MaterialName.toLowerCase();
+                                    
+                                    return searchTerm && itemName.startsWith(searchTerm);
+                                  }).map((item, index) => (
+                                    <li key={index}>
+                                      <div className="dropdown-item" type="button" onClick={() => setMaterialName(item.MaterialName)}>
+                                        {item.MaterialName}
+                                      </div>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
                             </div>
                         </div>
+
                         <div className="mt-4">
                             <button className="btn btn-primary">Submit</button>
                             {Error && <div>{Error}</div>}

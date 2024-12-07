@@ -1,4 +1,4 @@
-const BillDetails = ({bill}) => {
+const BillDetails = ({ bill }) => {
     return (
         <tr>
             <th scope="row" className="text-center align-top">{bill.GRNNumber}</th>
@@ -7,23 +7,24 @@ const BillDetails = ({bill}) => {
             <td>{bill.InvoiceNumber}</td>
             <td>{bill.Transporter}</td>
             <td>{bill.LRNumber}</td>
-            <td>
-                <ul className="list-unstyled">
+            <td colSpan="2">
+                <div>
                     {bill.Material.map((material, index) => (
-                        <li>{material}</li>
+                        <div
+                            key={index}
+                            className={`d-flex justify-content-between align-items-center ${
+                                index !== bill.Material.length - 1 ? "material-quantity-row" : ""
+                            }`}
+                        >
+                            <span>{material}</span>
+                            <span>{bill.Quantity[index]}</span>
+                        </div>
                     ))}
-                </ul>
+                </div>
             </td>
-            <td>
-                <ul className="list-unstyled">
-                    {bill.Quantity.map((quantity) => (
-                        <li>{quantity}</li>
-                    ))} 
-                </ul>   
-            </td>
-            <td>{bill.NumberOfBox}</td>
+            <td className="text-center align-middle">{bill.NumberOfBox}</td>
         </tr>
-    )
-}
+    );
+};
 
-export default BillDetails
+export default BillDetails;

@@ -7,6 +7,7 @@ import ExcelBill from './pages/ExcelBill';
 import SearchBill from './pages/SearchBill';
 import AddParty from './pages/AddParty';
 import LoginRegister from './pages/LoginRegister';
+import EditBill from './pages/EditBill';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token')); // Initially set to null
@@ -58,6 +59,10 @@ function App() {
             <Route
               path="/searchBill"
               element={isAuthenticated ? <SearchBill onLogout={handleLogout}/> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/editBill"
+              element={isAuthenticated ? <EditBill onLogout={handleLogout}/> : <Navigate to="/login" />}
             />
             <Route
               path="/addParty"

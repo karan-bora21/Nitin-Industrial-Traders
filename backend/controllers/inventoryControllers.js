@@ -1,7 +1,6 @@
 const fs = require('fs');
 const { User, Inventory, CompanyName, MaterialName } = require('../models/InventoryModel');
 const { search } = require('../routes/inventoryRoutes');
-const CsvParser = require('json2csv').Parser;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -60,15 +59,31 @@ const loginUser = async (req, res) => {
 };
 
 //get all bill
-const getBills = async(req, res) => {
-    const bills = await Inventory.find({}).sort({createdAt: -1})
+const getBills = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
 
-    res.status(200).json(bills)
-}
+        let query = {};
+        if (startDate && endDate) {
+            query.createdAt = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate),
+            };
+        }
+
+        const bills = await Inventory.find(query)
+            .sort({ createdAt: -1 })
+            .limit(startDate && endDate ? 0 : 10); // Return latest 10 only if no date range
+
+        res.status(200).json(bills);
+    } catch (error) {
+        console.error("Error fetching bills:", error);
+        res.status(500).json({ error: "An error occurred while fetching bills." });
+    }
+};
 
 //enter new bill
 const createBill = async(req, res) => {
-    console.log("a")
     const {
         PartyName, InvoiceDate, InvoiceNumber, Transporter, LRNumber, Material, Quantity, NumberOfBox
     } = req.body;
@@ -99,6 +114,22 @@ const searchBills = async(req, res) => {
     res.status(200).json(bills)
 }
 
+//search bill by GRN Number
+const getBillByGRN = async (req, res) => {
+    const { GRNNumber } = req.params;
+
+    try {
+        const bill = await Inventory.findOne({ GRNNumber });
+        if (!bill) {
+            return res.status(404).json({ error: "Bill not found" });
+        }
+        res.status(200).json(bill);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+
 //delete a bill
 const deleteBill = async(req, res) => {
     const GRNNumber = parseInt(req.params.id)
@@ -114,15 +145,21 @@ const deleteBill = async(req, res) => {
 
 //update a bill
 const updateBill = async(req, res) => {
-    const GRNNumber = parseInt(req.params.id)
+    const { GRNNumber } = req.params;
 
-    const bill = await Inventory.findOneAndUpdate({GRNNumber: GRNNumber}, {...req.body})
-
-    if(!bill) {
-        return res.status(400).json({error: "No such workout"})
-    } 
-
-    res.status(200).json(bill)
+    try {
+        const updatedBill = await Inventory.findOneAndUpdate(
+            { GRNNumber },
+            { ...req.body },
+            { new: true }
+        );
+        if (!updatedBill) {
+            return res.status(404).json({ error: "Bill not found" });
+        }
+        res.status(200).json(updatedBill);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
 }
 
 //add party to database
@@ -182,7 +219,7 @@ const getMaterialNames = async(req, res) => {
 }
 
 //add material name
-// const addMaterialName = async(req, res) => {
+// const addMaterialNames = async(req, res) => {
 //         const jsonData = JSON.parse(fs.readFileSync('material_json.json', 'utf-8'));
 
 //         const materialData = jsonData.map(item => ({MaterialName: item.Name}))
@@ -222,4 +259,4 @@ const addMaterialName = async(req, res) => {
     }
 }
 
-module.exports = { createBill, getBills, deleteBill, updateBill, searchBills, getCompanyNames, addPartyName, getMaterialNames, addMaterialName, registerUser, loginUser }
+module.exports = { createBill, getBills, deleteBill, updateBill, searchBills, getCompanyNames, addPartyName, getMaterialNames, addMaterialName, registerUser, loginUser, getBillByGRN }
