@@ -68,7 +68,7 @@ const getBills = async (req, res) => {
                 ? { InvoiceDate: { $gte: startDate, $lte: endDate } }
                 : {} // If no date range, fetch all documents
             )
-            .sort({ InvoiceDate: -1 }) // Sort by 'createdAt' in descending order
+            .sort({ GRNNumber: -1 }) // Sort by 'createdAt' in descending order
             .limit(startDate && endDate ? 0 : 10);
 
         res.status(200).json(bills);
@@ -81,7 +81,7 @@ const getBills = async (req, res) => {
 //enter new bill
 const createBill = async(req, res) => {
     const {
-        PartyName, InvoiceDate, InvoiceNumber, Transporter, LRNumber, Material, Quantity, NumberOfBox
+        PartyName, InvoiceDate, InvoiceNumber, InvertDate, Transporter, LRNumber, Material, Quantity, NumberOfBox
     } = req.body;
 
     const noOfBills = await Inventory.find({});
@@ -89,7 +89,7 @@ const createBill = async(req, res) => {
 
     try {
         const bill = await Inventory.create({
-            GRNNumber, PartyName, InvoiceDate, InvoiceNumber, Transporter, LRNumber, Material, Quantity, NumberOfBox
+            GRNNumber, PartyName, InvoiceDate, InvoiceNumber, InvertDate, Transporter, LRNumber, Material, Quantity, NumberOfBox
         });
         res.status(200).json(bill);
     } catch(error) {

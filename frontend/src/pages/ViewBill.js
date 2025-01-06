@@ -32,7 +32,7 @@ const ViewBill = ({ onLogout }) => {
     return (
         <div>
             <Navbar onLogout={onLogout} />
-            <div className="w-75 m-auto p-2 mt-4">
+            <div className="w-80 m-auto p-2 mt-4">
                 <form onSubmit={handleFilterSubmit} className="mb-4">
                     <div className="row">
                         <div className="col-md-4">
@@ -70,6 +70,7 @@ const ViewBill = ({ onLogout }) => {
                                 <th scope="col" className="text-center align-middle">Party Name</th>
                                 <th scope="col" className="text-center align-middle">Invoice date</th>
                                 <th scope="col" className="text-center align-middle">Invoice No</th>
+                                <th scope="col" className="text-center align-middle">Invert Date</th>
                                 <th scope="col" className="text-center align-middle">Transporter</th>
                                 <th scope="col" className="text-center align-middle">Lr No</th>
                                 <th scope="col" className="text-center align-middle">Material</th>

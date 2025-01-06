@@ -43,6 +43,7 @@ const CreateBill = ({ onLogout }) => {
         const PartyName = partyName;
         const InvoiceDate = document.getElementsByName("InvoiceDate")[0].value;
         const InvoiceNumber = document.getElementsByName("InvoiceNumber")[0].value;
+        const InvertDate = document.getElementsByName("InvertDate")[0].value;
         const Transporter = document.getElementsByName("Transporter")[0].value;
         const LRNumber = document.getElementsByName("LRNo")[0].value;
         const Material = materialRows.map((row) => row.materialName);
@@ -53,6 +54,7 @@ const CreateBill = ({ onLogout }) => {
             PartyName,
             InvoiceDate,
             InvoiceNumber,
+            InvertDate,
             Transporter,
             LRNumber,
             Material,
@@ -86,7 +88,7 @@ const CreateBill = ({ onLogout }) => {
                             className="form-control"
                             onChange={(e) => setPartyName(e.target.value)}
                             data-bs-toggle="dropdown"
-                        />
+                        />  
                         <div className="dropdown">
                             <ul
                                 className="dropdown-menu w-100 overflow-auto"
@@ -100,8 +102,8 @@ const CreateBill = ({ onLogout }) => {
                                             return searchTerm && companyName.startsWith(searchTerm);
                                         })
                                         .map((item, index) => (
-                                            <li key={index}>
-                                                <div className="dropdown-item" type="button" onClick={() => setPartyName(item.CompanyName)}>
+                                            <li key={index} className="dropdown-item">
+                                                <div type="button" onClick={() => setPartyName(item.CompanyName)}>
                                                     {item.CompanyName}
                                                 </div>
                                             </li>
@@ -118,6 +120,11 @@ const CreateBill = ({ onLogout }) => {
                     <div className="input-group-sm mt-2">
                         <label className="class-label">Invoice Number</label>
                         <input type="text" name="InvoiceNumber" className="form-control" />
+                    </div>
+
+                    <div className="input-group-sm mt-2">
+                        <label className="class-label">Invert Date</label>
+                        <input type="date" name="InvertDate" className="form-control" />
                     </div>
 
                     <div className="input-group-sm mt-2">

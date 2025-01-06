@@ -29,7 +29,11 @@ const inventorySchema = new Schema({
         required: true
     },
     InvoiceNumber: { 
-        type: Number,
+        type: String,
+        required: true
+    },
+    InvertDate: {
+        type: String,
         required: true
     },
     Transporter: {
