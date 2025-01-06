@@ -5,6 +5,7 @@ const BillDetails = ({ bill }) => {
             <td>{bill.PartyName}</td>
             <td>{bill.InvoiceDate}</td>
             <td>{bill.InvoiceNumber}</td>
+            <td>{bill.InvertDate}</td>
             <td>{bill.Transporter}</td>
             <td>{bill.LRNumber}</td>
             <td colSpan="2">

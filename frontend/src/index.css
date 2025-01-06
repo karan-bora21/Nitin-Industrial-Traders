@@ -110,3 +110,9 @@ body {
 div.material-quantity-row {
   border-bottom: 1px solid black;
 }
+
+/* Dropdown Styles */
+.active {
+  background-color: #007bff;
+  color: white;
+}
