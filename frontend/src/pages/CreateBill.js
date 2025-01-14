@@ -134,7 +134,7 @@ const CreateBill = ({ onLogout }) => {
 
                     <div className="input-group-sm mt-2">
                         <label className="class-label">Transporter LR No</label>
-                        <input type="number" name="LRNo" className="form-control" />
+                        <input type="text" name="LRNo" className="form-control" />
                     </div>
 
                     <div className="mt-2">

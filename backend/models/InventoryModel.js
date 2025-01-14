@@ -40,7 +40,7 @@ const inventorySchema = new Schema({
         type: String
     },
     LRNumber: {
-        type: Number,
+        type: String,
         required: true
     },
     Material: {
