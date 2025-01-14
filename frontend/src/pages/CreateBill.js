@@ -99,7 +99,7 @@ const CreateBill = ({ onLogout }) => {
                                         .filter((item) => {
                                             const searchTerm = partyName.toLowerCase();
                                             const companyName = item.CompanyName.toLowerCase();
-                                            return searchTerm && companyName.startsWith(searchTerm);
+                                            return searchTerm && companyName.includes(searchTerm);
                                         })
                                         .map((item, index) => (
                                             <li key={index} className="dropdown-item">
@@ -123,7 +123,7 @@ const CreateBill = ({ onLogout }) => {
                     </div>
 
                     <div className="input-group-sm mt-2">
-                        <label className="class-label">Invert Date</label>
+                        <label className="class-label">Inward Date</label>
                         <input type="date" name="InvertDate" className="form-control" />
                     </div>
 
@@ -171,7 +171,7 @@ const CreateBill = ({ onLogout }) => {
                                                             itemNames
                                                                 .filter((item) => {
                                                                     const searchTerm = row.materialName.toLowerCase();
-                                                                    return searchTerm && item.MaterialName.toLowerCase().startsWith(searchTerm);
+                                                                    return searchTerm && item.MaterialName.toLowerCase().includes(searchTerm);
                                                                 })
                                                                 .map((item, idx) => (
                                                                     <li key={idx}>
